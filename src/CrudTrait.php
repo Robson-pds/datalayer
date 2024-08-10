@@ -16,7 +16,7 @@ trait CrudTrait
      * @return int|null
      * @throws PDOException
      */
-    protected function create(array $data): string|bool
+    protected function create(array $data): ?int
     {
         if ($this->timestamps) {
             $data["created_at"] = (new DateTime("now"))->format("Y-m-d H:i:s");

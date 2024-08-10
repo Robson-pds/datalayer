@@ -223,7 +223,7 @@ abstract class DataLayer
         }
 
         $statement .= ")";
-        if (!str_contains($this->statement, "WHERE")) {
+        if (!(strpos($this->statement, "WHERE") !== false)) {
             $this->statement .= " WHERE " . $statement;
         } else {
             $this->statement .= " AND " . $statement;
@@ -247,7 +247,7 @@ abstract class DataLayer
      * @param bool $all
      * @return static|array|null
      */
-    public function fetch(bool $all = false): array|static|null
+    public function fetch(bool $all = false)
     {
         try {
             $stmt = Connect::getInstance($this->database)->prepare(
