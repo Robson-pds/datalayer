@@ -343,7 +343,7 @@ abstract class DataLayer
         $this->requiredError = [];
         $data = (array)$this->data();
         foreach ($this->required as $field) {
-            if ((!isset($data[$field])) || ($data[$field] == null)) {
+            if (!isset($data[$field]) || is_array($data[$field])) {
                 $this->requiredError[] = $this->toCamelCase($field);
             }
         }
