@@ -53,6 +53,8 @@ abstract class DataLayer
     /** @var object|null */
     protected ?object $data = null;
 
+    private ?array $requiredError = null;
+
     /**
      * DataLayer constructor.
      * @param string $entity
@@ -291,7 +293,7 @@ abstract class DataLayer
 
         try {
             if (!$this->required()) {
-                throw new PDOException("Preencha os campos necessários");
+                throw new PDOException("Preencha os campos necessários: " . implode(", ", $this->requiredError));
             }
 
             /** Update */
@@ -338,11 +340,15 @@ abstract class DataLayer
      */
     protected function required(): bool
     {
+        $this->requiredError = [];
         $data = (array)$this->data();
         foreach ($this->required as $field) {
             if ((!isset($data[$field])) || ($data[$field] == null)) {
-                return false;
+                $this->requiredError[] = $this->toCamelCase($field);
             }
+        }
+        if (!empty($this->requiredError)) {
+            return false;
         }
         return true;
     }
