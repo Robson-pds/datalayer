@@ -340,7 +340,7 @@ abstract class DataLayer
     {
         $data = (array)$this->data();
         foreach ($this->required as $field) {
-            if ((!isset($data[$field])) || ($data[$field] == null) || ($data[$field] == '')) {
+            if ((!isset($data[$field])) || ($data[$field] == null)) {
                 return false;
             }
         }
